@@ -17,7 +17,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
-    setup(props, context) { 
+    setup() { 
         const {login, error, isPending} = useLogin() //importing login info from composables
 
         const email = ref('')
@@ -27,8 +27,7 @@ export default {
         const handleSubmit = async () => {
            await login(email.value, password.value)
            if(!error.value) {
-            router.push({ name: 'home' })
-            context.emit('login')
+            router.push({ name: 'UserPlaylists' })
            }
         }
         return {email, password, handleSubmit, login, error, isPending}

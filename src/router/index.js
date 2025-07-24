@@ -5,6 +5,7 @@ import Signup from '@/views/auth/Signup.vue'
 import CreatePlaylist from '@/views/Playlists/CreatePlaylist.vue'
 import { projectAuth } from '@/firebase/config'
 import PlayListDetails from '@/views/Playlists/playlistDetails.vue'
+import UserPlaylists from '@/views/Playlists/userPlaylists.vue'
 
 const requiredAuth = (to, from, next) => {
   let user = projectAuth.currentUser // Check if user is logged in
@@ -43,6 +44,12 @@ const routes = [
     name: 'PlayListDetails',
     component: PlayListDetails,
     props: true,
+    beforeEnter: requiredAuth //added route guard to protect this route
+  },
+  {
+    path: '/playlists/user',
+    name: 'UserPlaylists',
+    component: UserPlaylists,
     beforeEnter: requiredAuth //added route guard to protect this route
   }
 ]

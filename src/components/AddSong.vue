@@ -30,8 +30,8 @@ export default {
             artist: artist.value,
             id: Date.now() // simple unique ID
         };
-        await updateDocument(props.playlist.id, {
-            songs: [...props.playlist.songs, newSong]
+        await updateDocument(props.playlist.id, { // Update the playlist document with the new song
+          songs: [...props.playlist.songs, newSong] // Add the new song to the existing songs array
         });
         title.value = ''
         artist.value = '' 

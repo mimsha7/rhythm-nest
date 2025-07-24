@@ -18,7 +18,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 export default {
-    setup(props, context) {
+    setup() { 
         const { signup, error, isPending } = useSignup()
 
         const displayName = ref('')
@@ -29,8 +29,7 @@ export default {
         const handleSubmit = async () => {
             await signup( displayName.value, email.value, password.value)
             if(!error.value){
-                router.push({name: 'home'})
-            context.emit('signup')
+                router.push({name: 'UserPlaylists'})
           }
         }
 

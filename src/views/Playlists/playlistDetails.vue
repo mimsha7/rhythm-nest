@@ -23,7 +23,7 @@
           </svg>
           <span>{{ song.title }} by {{ song.artist }}</span>
         </div>
-        <button class="delete-song _btn" v-if="ownList" @click="handleDeleteSong(song.id)">Delete</button>
+        <button class="delete-song _btn" v-if="ownList" @click="handleClick(song.id)">Delete</button>
       </div>
       <AddSong v-if="ownList" :playlist="playlist" />
     </div>
@@ -56,6 +56,7 @@ setup(props) {
     return playlist.value && user.value && user.value.uid == playlist.value.userId
   })
 
+  // Function to handle playlist deletion with cover image
   const handleDelete = async () => {
     if (confirm('Are you sure you want to delete this playlist and its cover image?')) {
       await deleteImage(playlist.value.coverUrl);
@@ -64,12 +65,14 @@ setup(props) {
     }
   }
 
-  const handleDeleteSong = async (songId) => {
-    const songs = playlist.value.songs.filter(song => song.id !== songId);
-    await updateDocument(props.id, { songs });
-  }
+  // Function to handle song deletion
+const handleClick = async (id) => { //passing id to the function to delete the song
+  const songs = playlist.value.songs.filter(song => song.id != id);
+  await updateDocument(props.id, {songs}) // Update the playlist document with the new songs array (which is the passing object (update) from updateDocument)
+  //using props.id cause we're not passing them on import parameter and to ensure we are updating the correct playlist
+}
 
-  return { playlist, error, ownList, handleDelete, isPanding, handleDeleteSong }
+  return { playlist, error, ownList, handleDelete, isPanding, handleClick }
 }
 }
 </script>

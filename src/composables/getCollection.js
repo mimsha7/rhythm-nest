@@ -6,13 +6,12 @@ const getCollection = (collections) => {
     const documents = ref(null)
     const error = ref(null)
 
-    const colRef = collection(projectFirestore, collections)
-    const q = query(colRef, orderBy('createdAt', 'asc'))
+    let colRef = collection(projectFirestore, collections)
+    let q = query(colRef, orderBy('createdAt', 'desc'))
 
     const unsub = onSnapshot(q, (snap) => {
         let results = []
         snap.docs.forEach(doc => {
-            //must wait for the server to create the timestamp & send back
            doc.data().createdAt && results.push({ ...doc.data(), id: doc.id })
         })
         documents.value = results
@@ -24,7 +23,6 @@ const getCollection = (collections) => {
     })
 
     watchEffect((onInvalidate) => {
-        //unsubscribe from the collection when the component is unmounted
         onInvalidate(() => unsub())
     })
 
